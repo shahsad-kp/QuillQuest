@@ -7,3 +7,4 @@ tzdata==2023.3
 wheel==0.41.0
 djangorestframework==3.14.0
 djangorestframework-simplejwt==5.2.2
+django-cors-headers==4.2.0

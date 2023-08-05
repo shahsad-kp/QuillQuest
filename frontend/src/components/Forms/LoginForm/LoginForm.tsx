@@ -1,6 +1,8 @@
 import '../Form.css';
 import {useCallback, useState, MouseEvent} from "react";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import {login} from "../../../api/authServices.ts";
+import {AxiosError} from "axios";
 
 type ValuesType = {
     emailOrPhone: string,
@@ -13,6 +15,8 @@ export const LoginForm = () => {
         emailOrPhone: '',
         password: '',
     });
+    const [loading, setLoading] = useState<boolean>(false);
+    const navigate = useNavigate()
 
     const handleSubmit = useCallback((e: MouseEvent<HTMLElement>) => {
         e.preventDefault();
@@ -34,9 +38,24 @@ export const LoginForm = () => {
         }
         else {
             setError(null);
-            alert('Login successful')
+            const email = /[^0-9]+/.test(values.emailOrPhone) ? values.emailOrPhone : undefined;
+            const phone = /[^0-9]+/.test(values.emailOrPhone) ? undefined : values.emailOrPhone;
+            setLoading(true)
+            login(values.password, email, phone).then(() => {
+                navigate('/', {replace: true})
+            }).catch((err) => {
+                const error = err as AxiosError;
+                if (error.response?.status === 401) {
+                    setError('Invalid credentials');
+                }
+                else {
+                    setError('Something went wrong');
+                }
+            }).finally(() => {
+                setLoading(false);
+            })
         }
-    }, [values]);
+    }, [navigate, values.emailOrPhone, values.password]);
 
     return (<div className={'auth-form'}>
         <h1>Log In</h1>
@@ -57,12 +76,12 @@ export const LoginForm = () => {
             <button
                 type={'submit'}
                 onClick={handleSubmit}
-
-            >Login</button>
+                disabled={loading}
+            >{loading? 'Logging in ..' : 'Login'}</button>
         </form>
         <hr style={{width: '100%', height: "1px", margin: '0'}}/>
         <p>
-            Don't have an account? <Link to={'/signup'}>Sign up</Link>
+            Don't have an account? <Link to={'/signup'} replace={true}>Sign up</Link>
         </p>
     </div>);
 };
