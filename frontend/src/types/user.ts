@@ -5,5 +5,4 @@ export type User = {
     email: string,
     phone: string,
     dateOfBirth: Date | string,
-    loggedIn?: boolean
 }

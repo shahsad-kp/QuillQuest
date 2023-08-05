@@ -1,6 +1,7 @@
+import '../AuthPages.scss'
 import {LoginForm} from "../../../components";
 
-export const LoginPage = () => {
+export const LoginPage= () => {
     return (
         <div className={'auth-page'}>
             <LoginForm/>

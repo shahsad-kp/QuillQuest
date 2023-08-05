@@ -1,6 +1,6 @@
 import '../Form.css';
 import {useCallback, useState, MouseEvent} from "react";
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import {login} from "../../../api/authServices.ts";
 import {AxiosError} from "axios";
 
@@ -16,7 +16,8 @@ export const LoginForm = () => {
         password: '',
     });
     const [loading, setLoading] = useState<boolean>(false);
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const handleSubmit = useCallback((e: MouseEvent<HTMLElement>) => {
         e.preventDefault();
@@ -42,7 +43,13 @@ export const LoginForm = () => {
             const phone = /[^0-9]+/.test(values.emailOrPhone) ? undefined : values.emailOrPhone;
             setLoading(true)
             login(values.password, email, phone).then(() => {
-                navigate('/', {replace: true})
+                if (location.state?.from) {
+                    navigate(location.state.from, {replace: true});
+                }
+                else{
+                    navigate('/', {replace: true})
+                }
+
             }).catch((err) => {
                 const error = err as AxiosError;
                 if (error.response?.status === 401) {
