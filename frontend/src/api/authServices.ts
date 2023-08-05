@@ -1,6 +1,6 @@
 import {axiosInstance} from "./apiConfigurations.ts";
 import {AxiosResponse} from "axios";
-import {User} from "../types/user.ts";
+import {User} from "../types/User.ts";
 import {store} from "../redux/store.ts";
 import {login as loginUser} from "../redux/authSlice/authSlice.ts";
 

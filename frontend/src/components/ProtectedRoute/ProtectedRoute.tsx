@@ -1,7 +1,7 @@
 import {Navigate, useLocation} from "react-router-dom";
 import {FC, ReactNode} from "react";
 import {useSelector} from "react-redux";
-import {User} from "../../types/user.ts";
+import {User} from "../../types/User.ts";
 
 type Props = {
     to: string; replace?: boolean; children: ReactNode;

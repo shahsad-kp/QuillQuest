@@ -1,5 +1,8 @@
+import {ArticleList, Navbar} from "../../components";
+
 export const HomePage = () => {
-    return (
-        <>Hai</>
-    );
+    return (<div className={'home-page'}>
+        <Navbar/>
+        <ArticleList/>
+    </div>);
 };

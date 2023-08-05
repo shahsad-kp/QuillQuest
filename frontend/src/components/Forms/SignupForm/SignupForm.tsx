@@ -1,12 +1,12 @@
 import '../Form.css';
 import {useCallback, useState, MouseEvent, useMemo} from "react";
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import {register} from "../../../api/authServices.ts";
 import {AxiosError} from "axios";
-import {User} from "../../../types/user.ts";
+import {User} from "../../../types/User.ts";
 
 enum SignUpState {
-    personalInfo = 0, accountInfo = 1, password = 2,
+    personalInfo = 0, accountInfo = 1, password = 2
 }
 
 type ValuesType = {
@@ -19,6 +19,7 @@ export const SignupForm = () => {
     const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
+    const location = useLocation();
 
     const maxDate = useMemo(() => {
         const currentDate = new Date()
@@ -58,7 +59,12 @@ export const SignupForm = () => {
                     firstName: values.firstName, lastName: values.lastName, email: values.email, dateOfBirth, phone: values.phone
                 }
                 register(user).then(() => {
-                    navigate('/', {replace: true})
+                    if (location.state?.from) {
+                        navigate('/article-preferences', {replace: true, state:{from:location.state.from}},)
+                    }
+                    else{
+                        navigate('/article-preferences', {replace: true},)
+                    }
                 }).catch((err) => {
                     const error = err as AxiosError;
                     if (error.response?.status === 400) {

@@ -10,6 +10,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     date_of_birth = models.DateField(verbose_name='Date of birth')
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=10, unique=True)
+    interested_categories = models.ManyToManyField('Article.Category', blank=True, related_name='interested_users')
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name', 'phone', 'date_of_birth']

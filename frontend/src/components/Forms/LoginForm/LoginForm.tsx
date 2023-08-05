@@ -42,12 +42,18 @@ export const LoginForm = () => {
             const email = /[^0-9]+/.test(values.emailOrPhone) ? values.emailOrPhone : undefined;
             const phone = /[^0-9]+/.test(values.emailOrPhone) ? undefined : values.emailOrPhone;
             setLoading(true)
-            login(values.password, email, phone).then(() => {
+            login(values.password, email, phone).then(user => {
                 if (location.state?.from) {
-                    navigate(location.state.from, {replace: true});
+                    if (user.setupCompleted)
+                        navigate(location.state.from, {replace: true});
+                    else
+                        navigate('/article-preferences', {replace: true, state:{from: location.state.from}});
                 }
                 else{
-                    navigate('/', {replace: true})
+                    if (user.setupCompleted)
+                        navigate('/', {replace: true})
+                    else
+                        navigate('/article-preferences', {replace: true});
                 }
 
             }).catch((err) => {

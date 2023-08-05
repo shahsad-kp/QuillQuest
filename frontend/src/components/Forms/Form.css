@@ -72,3 +72,40 @@
     color: #000;
     font-weight: 600;
 }
+
+.preference-container{
+    display: flex;
+    flex-wrap: wrap;
+    gap: .7rem;
+    width: min-content;
+    min-width: 30vw;
+    justify-content: center;
+}
+
+.preference{
+    border-radius: 20px;
+    padding: 0.2rem .5rem;
+    display: flex;
+    justify-content: center;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    transition: all 200ms ease-in-out;
+}
+
+.preference:hover{
+    background-color: #ccc;
+}
+
+.preference input{
+    display: none;
+}
+
+.preference input:checked + label{
+    background-color: #000;
+    color: #fff;
+}
+
+.preference.selected{
+    background-color: #000;
+    color: #fff;
+}
