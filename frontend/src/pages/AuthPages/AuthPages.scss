@@ -1,0 +1,17 @@
+@import '/src/App';
+
+.auth-page{
+    background-image: $gradient-bottom-right;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media screen and (max-width: 768px){
+    .auth-page{
+        background-image: none;
+        background-color: white;
+    }
+}
