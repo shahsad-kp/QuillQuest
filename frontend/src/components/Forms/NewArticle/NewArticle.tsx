@@ -1,19 +1,31 @@
 import './NewArticle.css';
-import {useRef, useState} from "react";
+import {FormEvent, useCallback, useRef, useState} from "react";
 
 import DefaultImage from '../../../assets/default-article-image.png';
+import {NewArticleInfo} from "./NewArticleInfo/NewArticleInfo.tsx";
 
 export const NewArticle = () => {
     const [title, setTitle] = useState('');
-    const [image, setImage] = useState<File|null>(null);
+    const [image, setImage] = useState<File | null>(null);
     const [content, setContent] = useState('');
+    const [submitted, setSubmitted] = useState(false);
 
     const imageInput = useRef<HTMLInputElement>(null);
 
-    return (
-        <div className={'new-article-page'}>
+    const handleSubmit = useCallback((e: FormEvent) => {
+        e.preventDefault();
+        setSubmitted(true);
+    }, [])
+
+    return (<>
+        <form
+            className={'new-article-page'}
+            onSubmit={handleSubmit}
+        >
             <div className={'new-article-head'}>
-                <button>
+                <button
+                    type={'submit'}
+                >
                     Publish
                 </button>
             </div>
@@ -53,6 +65,12 @@ export const NewArticle = () => {
                     onChange={(e) => setContent(e.target.value)}
                 />
             </div>
-        </div>
-    );
+        </form>
+        {submitted && <NewArticleInfo
+            image={image}
+            content={content}
+            title={title}
+            closeFunction={() => setSubmitted(false)}
+        />}
+    </>);
 };

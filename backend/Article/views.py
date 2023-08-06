@@ -1,5 +1,5 @@
 from django.http import Http404
-from rest_framework.generics import ListAPIView, RetrieveAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.request import Request
@@ -14,6 +14,16 @@ class ListCategoryView(ListAPIView):
     serializer_class = CategorySerializer
     permission_classes = [AllowAny]
     queryset = Category.objects.all()
+
+
+class CreateArticle(CreateAPIView):
+    serializer_class = ArticleSerializer
+    permission_classes = [IsAuthenticated]
+    queryset = Article.objects.all()
+
+    def perform_create(self, serializer: ArticleSerializer):
+        serializer.save(author=self.request.user)
+
 
 class GetArticle(RetrieveAPIView):
     serializer_class = ArticleSerializer

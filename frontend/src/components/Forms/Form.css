@@ -53,7 +53,7 @@
     background-color: #333;
 }
 
-.auth-form form .error{
+.error{
     color: red;
     font-size: 0.8rem;
 }

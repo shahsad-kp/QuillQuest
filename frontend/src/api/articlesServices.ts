@@ -12,6 +12,7 @@ type ActionResponse = {
     blocked: boolean
 }
 
+
 const getCategories = async (): Promise<Category[]> => {
     try {
         const res: AxiosResponse<Category[]> = await axiosInstance.get('articles/categories/');
@@ -91,6 +92,21 @@ const blockArticle = async (id: number) => {
     }
 }
 
+const createArticle = async (title: string, content: string, image: File | null, tags: string[], category: number) => {
+    try {
+        const data = new FormData();
+        data.append('title', title);
+        data.append('content', content);
+        data.append('image', image as Blob);
+        data.append('postTags', JSON.stringify(tags));
+        data.append('categoryId', category.toString());
+        const response: AxiosResponse<Article> = await axiosAuthorized.post('articles/create/', data);
+        return response.data;
+    } catch (e) {
+        return Promise.reject(e);
+    }
+}
+
 export {
     getCategories,
     getInterests,
@@ -99,5 +115,6 @@ export {
     getInterestedArticles,
     fetchArticle,
     likeArticle,
-    blockArticle
+    blockArticle,
+    createArticle
 };
