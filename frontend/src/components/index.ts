@@ -5,6 +5,7 @@ import {Navbar} from "./Navbar/Navbar.tsx";
 import {ArticleBody} from "./Articles/ArticlesBody/ArticleBody.tsx";
 import {ArticlePreferences} from "./Forms/ArticlePreferences/ArticlePreferences.tsx";
 import {NewArticle} from "./Forms/NewArticle/NewArticle.tsx";
+import {Settings} from "./Settings/Settings.tsx";
 
 export {
     SignupForm,
@@ -13,5 +14,6 @@ export {
     Navbar,
     ArticleBody,
     ArticlePreferences,
-    NewArticle
+    NewArticle,
+    Settings
 };

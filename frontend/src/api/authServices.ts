@@ -1,4 +1,4 @@
-import {axiosInstance} from "./apiConfigurations.ts";
+import {axiosAuthorized, axiosInstance} from "./apiConfigurations.ts";
 import {AxiosResponse} from "axios";
 import {User} from "../types/User.ts";
 import {store} from "../redux/store.ts";
@@ -45,4 +45,17 @@ const register = async (user: User): Promise<User> => {
     return newUser;
 }
 
-export {login, register};
+const updateUser = async (firstName: string | null, lastName: string | null, email: string | null, phone: string | null): Promise<User> => {
+    const data = {
+        firstName,
+        lastName,
+        email,
+        phone
+    }
+    const res: AxiosResponse<User> = await axiosAuthorized.patch('user/update/', data);
+    const newUser = res.data;
+    store.dispatch(loginUser(newUser));
+    return newUser;
+}
+
+export {login, register, updateUser};

@@ -1,0 +1,130 @@
+.settings {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    background-color: #f5f5f5;
+    padding: 0 20px;
+    gap: 0.5rem;
+}
+
+.settings .selector {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: .7rem;
+    padding: .5rem;
+    overflow-y: auto;
+}
+
+.settings .selector::-webkit-scrollbar {
+    width: 5px;
+}
+
+.selector-width {
+    width: 100%;
+    justify-content: start;
+}
+
+@media screen and (min-width: 768px) {
+    .selector-width {
+        width: fit-content;
+
+        justify-content: center;
+    }
+}
+
+.settings .selector span {
+    font-size: 1rem;
+    color: #333;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 600;
+    padding: .5rem 1rem;
+    cursor: pointer;
+    transition: all .3s ease-in-out;
+    white-space: nowrap;
+}
+
+.settings .selector .selected {
+    background-color: #3a3a3a;
+    color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, .2);
+}
+
+.settings-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: #fff;
+    width: fit-content;
+    border-radius: 5px;
+}
+
+.settings-width {
+    width: 100%;
+}
+
+.group-form {
+    flex-direction: column;
+    gap: 1rem !important;
+}
+
+@media screen and (min-width: 768px) {
+    .settings-width {
+        width: fit-content;
+    }
+
+    .group-form {
+        flex-direction: row;
+    }
+}
+
+.settings-form {
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.settings-form input {
+    width: 100%;
+    padding: .5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #333;
+    outline: none;
+}
+
+.settings-form button {
+    width: 100%;
+    padding: .5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #333;
+    outline: none;
+}
+
+.settings-form button:hover {
+    background-color: #3a3a3a;
+    color: #fff;
+    cursor: pointer;
+}
+
+.settings-form input:focus {
+    border: 1px solid #3a3a3a;
+}
+
+.settings-form .group-input {
+    display: flex;
+    gap: .5rem;
+}
