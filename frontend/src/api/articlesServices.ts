@@ -1,6 +1,14 @@
 import {AxiosResponse} from "axios";
 import {axiosAuthorized, axiosInstance} from "./apiConfigurations.ts";
 import {Category, TrendingCategory} from "../types/Category.ts";
+import {Article} from "../types/Article.ts";
+
+type ArticlesResponse = {
+    count: number,
+    next: number | null,
+    previous: number | null,
+    results: Article[]
+}
 
 const getCategories = async (): Promise<Category[]> => {
     try {
@@ -44,4 +52,28 @@ const getInterestedCategories = async () => {
     }
 }
 
-export {getCategories, getInterests, updateInterestedCategories, getInterestedCategories};
+const getInterestedArticles = async (category: string | null, page: number | null) => {
+    try{
+        const res: AxiosResponse<ArticlesResponse> = await axiosAuthorized.get(
+            'articles/',
+            {
+                params: {
+                    category: category,
+                    page: page
+                }
+            }
+        );
+        return res.data;
+    }
+    catch (e) {
+        return Promise.reject(e);
+    }
+}
+
+export {
+    getCategories,
+    getInterests,
+    updateInterestedCategories,
+    getInterestedCategories,
+    getInterestedArticles
+};

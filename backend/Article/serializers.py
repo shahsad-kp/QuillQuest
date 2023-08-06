@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from User.serializers import AuthorSerializer
 from .models import Article, Category
 
 
@@ -7,15 +8,6 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = '__all__'
-
-
-class AuthorSerializer(serializers.ModelSerializer):
-    firstName = serializers.CharField(source='first_name')
-    lastName = serializers.CharField(source='last_name')
-
-    class Meta:
-        model = 'User.User'
-        fields = ('firstName', 'lastName', 'email')
 
 
 class ArticleSerializer(serializers.ModelSerializer):
@@ -28,8 +20,15 @@ class ArticleSerializer(serializers.ModelSerializer):
 
 
 class InterestedCategorySerializer(serializers.ModelSerializer):
-    articles = ArticleSerializer(many=True, read_only=True)
+    id = serializers.IntegerField(read_only=True)
+    title = serializers.CharField(max_length=50)
+    articles = serializers.SerializerMethodField()
 
     class Meta:
         model = Category
         fields = ('id', 'title', 'articles')
+
+    def get_articles(self, obj: Category):
+        articles = Article.objects.filter(category=obj).all()
+        serializer = ArticleSerializer(articles, many=True)
+        return serializer.data

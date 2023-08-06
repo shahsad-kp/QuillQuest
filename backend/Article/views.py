@@ -19,6 +19,9 @@ class ListMatchedArticlesView(ListAPIView):
     page_size = 30
 
     def get_queryset(self):
+        category = self.request.query_params.get('category', None)
+        if category:
+            return Article.objects.filter(category__title=category)
         return Article.objects.filter(category__interested_users=self.request.user)
 
 

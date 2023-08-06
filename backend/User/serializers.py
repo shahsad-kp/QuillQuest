@@ -38,6 +38,15 @@ class UserSerializer(ModelSerializer):
         return obj.interested_categories.all().exists()
 
 
+class AuthorSerializer(ModelSerializer):
+    firstName = CharField(source='first_name')
+    lastName = CharField(source='last_name')
+
+    class Meta:
+        model = User
+        fields = ('firstName', 'lastName', 'email')
+
+
 class InterestedCategorySerializer(ModelSerializer):
     class Meta:
         model = 'Article.Category'
