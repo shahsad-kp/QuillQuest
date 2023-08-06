@@ -5,6 +5,7 @@ import {useSearchParams} from "react-router-dom";
 import {Category} from "../../../types/Category.ts";
 import {CategorySelector} from "../CategorySelector/CategorySelector.tsx";
 import {getInterestedArticles, getInterestedCategories} from "../../../api/articlesServices.ts";
+import {ArticleList} from "../ArticleList/ArticleList.tsx";
 
 export const ArticleBody = () => {
     const nextPage = useRef<number | null>(null);
@@ -31,11 +32,12 @@ export const ArticleBody = () => {
         });
     }, [searchParams]);
 
-    return (<div className={'article-list-body'}>
-            <div className={'article-list'}>
+    return (<div className={'article-body'}>
+            <div className={'article-body-inner article-body-width'}>
                 <CategorySelector
                     categories={interestedCategories}
                 />
+                <ArticleList articles={articles}/>
             </div>
         </div>);
 };

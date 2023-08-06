@@ -13,10 +13,12 @@ class CategorySerializer(serializers.ModelSerializer):
 class ArticleSerializer(serializers.ModelSerializer):
     category = CategorySerializer()
     author = AuthorSerializer()
+    dateCreated = serializers.DateTimeField(source='created_at')
+    dateUpdated = serializers.DateTimeField(source='updated_at')
 
     class Meta:
         model = Article
-        fields = ('title', 'content', 'category', 'author', 'image', 'tags', 'created_at', 'updated_at')
+        fields = ('title', 'content', 'category', 'author', 'image', 'tags', 'dateCreated', 'dateUpdated')
 
 
 class InterestedCategorySerializer(serializers.ModelSerializer):

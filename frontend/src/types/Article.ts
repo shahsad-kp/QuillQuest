@@ -8,7 +8,7 @@ export type Article = {
     image: string,
     category: Category,
     readingTime: number,
-    dateCreated: Date | string,
-    dateUpdated: Date | string,
+    dateCreated: string,
+    dateUpdated: string,
     author: Author
 }
