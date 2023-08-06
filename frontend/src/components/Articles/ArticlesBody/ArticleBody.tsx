@@ -6,6 +6,7 @@ import {Category} from "../../../types/Category.ts";
 import {CategorySelector} from "../CategorySelector/CategorySelector.tsx";
 import {getInterestedArticles, getInterestedCategories} from "../../../api/articlesServices.ts";
 import {ArticleList} from "../ArticleList/ArticleList.tsx";
+import {OpenedArticle} from "../OpenedArticle/OpenedArticle.tsx";
 
 export const ArticleBody = () => {
     const nextPage = useRef<number | null>(null);
@@ -13,6 +14,7 @@ export const ArticleBody = () => {
     const [searchParams] = useSearchParams()
     const [interestedCategories, setInterestedCategories] = useState<Category[]>([]);
     const selectedCategory = useRef('All');
+    const [openedArticle, setOpenedArticle] = useState<Article | null>(null);
 
     useEffect(() => {
         getInterestedCategories().then(setInterestedCategories);
@@ -33,11 +35,12 @@ export const ArticleBody = () => {
     }, [searchParams]);
 
     return (<div className={'article-body'}>
-            <div className={'article-body-inner article-body-width'}>
-                <CategorySelector
-                    categories={interestedCategories}
-                />
-                <ArticleList articles={articles}/>
-            </div>
-        </div>);
+        <div className={'article-body-inner article-body-width'}>
+            <CategorySelector
+                categories={interestedCategories}
+            />
+            <ArticleList articles={articles} openArticle={setOpenedArticle}/>
+        </div>
+        {openedArticle && <OpenedArticle article={openedArticle}/>}
+    </div>);
 };

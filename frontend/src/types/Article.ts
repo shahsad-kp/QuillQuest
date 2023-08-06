@@ -10,5 +10,6 @@ export type Article = {
     readingTime: number,
     dateCreated: string,
     dateUpdated: string,
-    author: Author
+    author: Author,
+    liked: boolean,
 }

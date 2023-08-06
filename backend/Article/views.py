@@ -1,6 +1,10 @@
-from rest_framework.generics import ListAPIView
+from django.http import Http404
+from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.request import Request
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from Article.models import Category, Article
 from Article.serializers import CategorySerializer, ArticleSerializer, InterestedCategorySerializer
@@ -10,6 +14,12 @@ class ListCategoryView(ListAPIView):
     serializer_class = CategorySerializer
     permission_classes = [AllowAny]
     queryset = Category.objects.all()
+
+class GetArticle(RetrieveAPIView):
+    serializer_class = ArticleSerializer
+    permission_classes = [IsAuthenticated]
+    queryset = Article.objects.all()
+    lookup_field = 'pk'
 
 
 class ListMatchedArticlesView(ListAPIView):
@@ -31,3 +41,33 @@ class GetInterestedCategoriesView(ListAPIView):
 
     def get_queryset(self):
         return Category.objects.filter(interested_users=self.request.user)
+
+
+class LikeArticle(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get_article(self, pk):
+        try:
+            return Article.objects.get(pk=pk)
+        except Article.DoesNotExist:
+            raise Http404
+
+    def get(self, request: Request, pk: int):
+        article = self.get_article(pk)
+        status = article.like(request.user)
+        return Response(data={'liked': status}, status=200)
+
+
+class BlockArticle(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get_article(self, pk):
+        try:
+            return Article.objects.get(pk=pk)
+        except Article.DoesNotExist:
+            raise Http404
+
+    def get(self, request: Request, pk: int):
+        article = self.get_article(pk)
+        status = article.block(request.user)
+        return Response(data={'blocked': status}, status=200)

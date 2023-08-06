@@ -5,14 +5,15 @@ import {Article} from "../Article/Article.tsx";
 
 type Props = {
     articles: ArticleType[];
+    openArticle: (article: ArticleType) => void;
 }
 
-export const ArticleList: FC<Props> = ({articles}) => {
+export const ArticleList: FC<Props> = ({articles, openArticle}) => {
     return (
         <div
             className={'article-list article-list-grid'}
         >
-            {articles.map(article => (<Article article={article}/>) )}
+            {articles.map(article => (<Article article={article} openArticle={openArticle}/>) )}
         </div>
     );
 };

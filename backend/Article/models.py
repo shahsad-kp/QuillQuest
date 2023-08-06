@@ -20,12 +20,34 @@ class Article(models.Model):
     tags = models.ManyToManyField('Tag', blank=True, related_name='articles')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    likes = models.ManyToManyField(to='User.User', related_name='liked_articles')
+    blocks = models.ManyToManyField(to='User.User', related_name='blocked_articles')
 
     def __str__(self):
         return self.title
 
     class Meta:
         verbose_name_plural = 'Articles'
+
+    def like(self, user):
+        if user in self.likes.all():
+            self.likes.remove(user)
+            return False
+        else:
+            self.likes.add(user)
+            return True
+
+    def block(self, user):
+        if user in self.blocks.all():
+            self.blocks.remove(user)
+            return False
+        else:
+            try:
+                self.likes.remove(user)
+            except _:
+                pass
+            self.blocks.add(user)
+            return True
 
 
 class Tag(models.Model):

@@ -5,15 +5,19 @@ import './Article.css'
 
 type Props = {
     article: ArticleType;
+    openArticle: (article: ArticleType) => void;
 }
 
-export const Article: FC<Props> = ({article}) => {
+export const Article: FC<Props> = ({article, openArticle}) => {
     const createdDate = new Date(article.dateCreated)
     const createdDateString = createdDate.toLocaleDateString('en-US', {
         year: 'numeric', month: 'long', day: 'numeric'
     });
     const readingTime = Math.ceil(article.content.split(' ').length / 200) + ' min read';
-    return (<section className={'article'}>
+    return (<section
+        className={'article'}
+        onClick={() => {openArticle(article)}}
+    >
         <div>
             <img src={article.image ? article.image : DefaultImage} alt={article.title}/>
         </div>

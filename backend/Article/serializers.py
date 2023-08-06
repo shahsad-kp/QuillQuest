@@ -15,10 +15,18 @@ class ArticleSerializer(serializers.ModelSerializer):
     author = AuthorSerializer()
     dateCreated = serializers.DateTimeField(source='created_at')
     dateUpdated = serializers.DateTimeField(source='updated_at')
+    liked = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Article
-        fields = ('title', 'content', 'category', 'author', 'image', 'tags', 'dateCreated', 'dateUpdated')
+        fields = ('id','title', 'content', 'category', 'author', 'image', 'tags', 'dateCreated', 'dateUpdated', 'liked')
+
+    def get_liked(self, obj: Article):
+        try:
+            user = self.context['request'].user
+        except KeyError:
+            return False
+        return user in obj.likes.all()
 
 
 class InterestedCategorySerializer(serializers.ModelSerializer):
