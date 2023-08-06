@@ -4,6 +4,7 @@ import {ProtectedRoute} from "./ProtectedRoute/ProtectedRoute.tsx";
 import {Navbar} from "./Navbar/Navbar.tsx";
 import {ArticleBody} from "./Articles/ArticlesBody/ArticleBody.tsx";
 import {ArticlePreferences} from "./Forms/ArticlePreferences/ArticlePreferences.tsx";
+import {NewArticle} from "./Forms/NewArticle/NewArticle.tsx";
 
 export {
     SignupForm,
@@ -11,5 +12,6 @@ export {
     ProtectedRoute,
     Navbar,
     ArticleBody,
-    ArticlePreferences
+    ArticlePreferences,
+    NewArticle
 };
