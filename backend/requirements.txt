@@ -8,4 +8,4 @@ wheel==0.41.1
 djangorestframework==3.14.0
 djangorestframework-simplejwt==5.2.2
 django-cors-headers
-pillow==10.0.0
+pillow
