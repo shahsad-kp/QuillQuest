@@ -41,6 +41,6 @@ export const ArticleBody = () => {
             />
             <ArticleList articles={articles} openArticle={setOpenedArticle}/>
         </div>
-        {openedArticle && <OpenedArticle article={openedArticle}/>}
+        {openedArticle && <OpenedArticle article={openedArticle} closeFunction={() => setOpenedArticle(null)}/>}
     </div>);
 };
