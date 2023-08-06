@@ -2,7 +2,6 @@
     .article-body-inner {
         width: 80%;
         height: fit-content;
-        min-height: 100vh;
         padding-top: 20px;
         display: flex;
         flex-direction: column;
@@ -22,7 +21,6 @@
     .article-body-inner {
         width: 100%;
         height: fit-content;
-        min-height: 100vh;
         padding-top: 20px;
         display: flex;
         flex-direction: column;
