@@ -1,5 +1,5 @@
 import {Category} from "./Category.ts";
-import {User} from "./User.ts";
+import {Author} from "./User.ts";
 
 export type Article = {
     id: number,
@@ -10,5 +10,5 @@ export type Article = {
     readingTime: number,
     dateCreated: Date | string,
     dateUpdated: Date | string,
-    author: User
+    author: Author
 }

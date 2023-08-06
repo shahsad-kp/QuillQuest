@@ -14,7 +14,7 @@ class Category(models.Model):
 class Article(models.Model):
     title = models.CharField(max_length=50)
     content = models.TextField()
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='articles')
     author = models.ForeignKey('User.User', on_delete=models.CASCADE)
     image = models.ImageField(upload_to='articles', null=True, blank=True)
     tags = models.ManyToManyField('Tag', blank=True)

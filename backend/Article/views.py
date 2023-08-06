@@ -3,7 +3,7 @@ from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from Article.models import Category, Article
-from Article.serializers import CategorySerializer, ArticleSerializer
+from Article.serializers import CategorySerializer, ArticleSerializer, InterestedCategorySerializer
 
 
 class ListCategoryView(ListAPIView):
@@ -20,3 +20,11 @@ class ListMatchedArticlesView(ListAPIView):
 
     def get_queryset(self):
         return Article.objects.filter(category__interested_users=self.request.user)
+
+
+class GetInterestedCategoriesView(ListAPIView):
+    serializer_class = InterestedCategorySerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Category.objects.filter(interested_users=self.request.user)

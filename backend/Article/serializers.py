@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Article, Category, Tag
+from .models import Article, Category
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -25,3 +25,11 @@ class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
         fields = ('title', 'content', 'category', 'author', 'image', 'tags', 'created_at', 'updated_at')
+
+
+class InterestedCategorySerializer(serializers.ModelSerializer):
+    articles = ArticleSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Category
+        fields = ('id', 'title', 'articles')

@@ -1,6 +1,6 @@
 import {useEffect, useState, MouseEvent} from "react";
 import {Category} from "../../../types/Category.ts";
-import {getCategories, getInterestedCategories, updateInteresetedCategories} from "../../../api/articlesServices.ts";
+import {getCategories, getInterests, updateInterestedCategories} from "../../../api/articlesServices.ts";
 import {useLocation, useNavigate} from "react-router-dom";
 
 export const ArticlePreferences = () => {
@@ -17,7 +17,7 @@ export const ArticlePreferences = () => {
         }).catch((err) => {
             console.log(err);
         })
-        getInterestedCategories().then((categories) => {
+        getInterests().then((categories) => {
             setSelectedCategories(categories.map((category) => category.id));
         }).catch((err) => {
             console.log(err);
@@ -35,7 +35,7 @@ export const ArticlePreferences = () => {
         else {
             setError('');
             setLoading(true);
-            updateInteresetedCategories(selectedCategories).then(() => {
+            updateInterestedCategories(selectedCategories).then(() => {
                 console.log('hai')
                 if (location.state?.from) {
                     navigate(location.state.from, {replace: true});
