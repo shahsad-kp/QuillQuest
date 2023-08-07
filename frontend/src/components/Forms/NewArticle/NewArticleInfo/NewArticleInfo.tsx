@@ -21,9 +21,7 @@ export const NewArticleInfo: FC<Props> = ({title, content, image, closeFunction,
     const navigate = useNavigate();
 
     useEffect(() => {
-        getCategories().then(setCategories).catch(e => {
-            console.log(e)
-        })
+        getCategories().then(setCategories).catch(console.log)
 
         const handleOutsideClick = (event: MouseEvent) => {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment

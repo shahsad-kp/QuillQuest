@@ -14,9 +14,7 @@ export const ArticlePrefsForm = () => {
     useEffect(() => {
         getCategories().then((categories) => {
             setCategories(categories);
-        }).catch((err) => {
-            console.log(err);
-        })
+        }).catch(console.log)
         getInterests().then((categories) => {
             setSelectedCategories(categories.map((category) => category.id));
         }).catch((err) => {

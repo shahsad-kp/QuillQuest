@@ -33,9 +33,9 @@ export const PersonalInfoForm = () => {
         }
 
         setLoading(true)
-        updateUser(validateFirstName, validateLastName, validateEmail, validatePhone).then(() => {
-            console.log('Successfully updated user');
-        }).finally(() => setLoading(false))
+        updateUser(validateFirstName, validateLastName, validateEmail, validatePhone).then(console.log).finally(
+            () => setLoading(false)
+        )
     }, [firstName, lastName, email, phone])
 
     return (<form

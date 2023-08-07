@@ -23,10 +23,7 @@ export const OpenedArticle: FC<Props> = ({article, closeFunction}) => {
     const readingTime = Math.ceil(article.content.split(' ').length / 200) + ' min read';
 
     useEffect(() => {
-        fetchArticle(article.id).then(res => {
-            console.log(res)
-            setFetchedArticle(res)
-        })
+        fetchArticle(article.id).then(setFetchedArticle)
     }, [article.id]);
 
     useEffect(() => {
