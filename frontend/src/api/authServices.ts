@@ -58,4 +58,17 @@ const updateUser = async (firstName: string | null, lastName: string | null, ema
     return newUser;
 }
 
-export {login, register, updateUser};
+const updatePassword = async (oldPassword: string, newPassword: string) => {
+    const data = {
+        oldPassword,
+        newPassword
+    }
+    try{
+        await axiosAuthorized.post( 'auth/update-password/', data);
+    }
+    catch (e) {
+        return Promise.reject(e);
+    }
+}
+
+export {login, register, updateUser, updatePassword};
