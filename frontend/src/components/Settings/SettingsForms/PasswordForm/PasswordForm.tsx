@@ -47,38 +47,41 @@ export const PasswordForm = () => {
     }, [currentPassword, password, repeatPassword]);
 
 
-        return (<form
-            className={'settings-form'}
-            onSubmit={handleSubmit}
-        >
-            <h3>Update Password</h3>
-            <div className={'group-input group-form'}>
-                <input
-                    type={'password'}
-                    placeholder={'Current Password'}
-                    value={currentPassword}
-                    onChange={(e) => setCurrentPassword(e.target.value)}
-                />
-            </div>
-            <div className={'group-input group-form'}>
-                <input
-                    type={'password'}
-                    placeholder={'Password'}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-            </div>
-            <div className={'group-input group-form'}>
-                <input
-                    type={'password'}
-                    placeholder={'Repeat Password'}
-                    value={repeatPassword}
-                    onChange={(e) => setRepeatPassword(e.target.value)}
-                />
-            </div>
-            <span className={'error'} style={{display: error ? 'block' : 'none'}}>{error}</span>
-            <div className={'group-input group-form'}>
-                <button type={'submit'}>{loading ? 'loading..' : 'Submit'}</button>
-            </div>
-        </form>);
-    };
+    return (<form
+        className={'settings-form'}
+        onSubmit={handleSubmit}
+    >
+        <h3>Update Password</h3>
+        <div className={'group-input group-form'}>
+            <input
+                type={'password'}
+                placeholder={'Current Password'}
+                value={currentPassword}
+                onChange={(e) => setCurrentPassword(e.target.value)}
+            />
+        </div>
+        <div className={'group-input group-form'}>
+            <input
+                type={'password'}
+                placeholder={'Password'}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+            />
+        </div>
+        <div className={'group-input group-form'}>
+            <input
+                type={'password'}
+                placeholder={'Repeat Password'}
+                value={repeatPassword}
+                onChange={(e) => setRepeatPassword(e.target.value)}
+            />
+        </div>
+        <span className={'error'} style={{display: error ? 'block' : 'none'}}>{error}</span>
+        <div className={'group-input group-form'}>
+            <button
+                type={'submit'}
+                disabled={loading}
+            >{loading ? 'Loading..' : 'Submit'}</button>
+        </div>
+    </form>);
+};

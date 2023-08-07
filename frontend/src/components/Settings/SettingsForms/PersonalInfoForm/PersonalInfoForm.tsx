@@ -74,7 +74,10 @@ export const PersonalInfoForm = () => {
             <span className={'error'} style={{display: error ? 'block' : 'none'}}>{error}</span>
 
             <div className={'group-input group-form'}>
-                <button type={'submit'}>{loading ? 'loading...' : 'Submit'}</button>
+                <button
+                    type={'submit'}
+                    disabled={loading}
+                >{loading ? 'Loading...' : 'Submit'}</button>
             </div>
         </form>);
 };

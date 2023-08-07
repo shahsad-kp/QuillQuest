@@ -49,7 +49,7 @@ class AuthorSerializer(ModelSerializer):
 
 class InterestedCategorySerializer(ModelSerializer):
     class Meta:
-        model = 'Article.Category'
+        model = Category
         fields = ['id', 'title']
 
 

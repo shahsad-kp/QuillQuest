@@ -28,7 +28,7 @@ export const ArticlePreferences = () => {
 
     const handleSubmit = (e: MouseEvent<HTMLElement>) => {
         e.preventDefault();
-        if (selectedCategories.length <= 3) {
+        if (selectedCategories.length < 3) {
             setError('Select at least 3 categories');
             return;
         }
@@ -36,7 +36,6 @@ export const ArticlePreferences = () => {
             setError('');
             setLoading(true);
             updateInterestedCategories(selectedCategories).then(() => {
-                console.log('hai')
                 if (location.state?.from) {
                     navigate(location.state.from, {replace: true});
                 }

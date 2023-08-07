@@ -128,3 +128,23 @@
     display: flex;
     gap: .5rem;
 }
+
+.settings-form form button{
+    padding: 0.7rem;
+    border: none;
+    border-radius: 3px;
+    font-size: 1rem;
+    background-color: #000;
+    color: #fff;
+    cursor: pointer;
+}
+
+.settings-form form button:disabled{
+    background-color: #ccc;
+    color: #000;
+    cursor: not-allowed;
+}
+
+.settings-form form button:disabled:hover{
+    background-color: #ccc;
+}
