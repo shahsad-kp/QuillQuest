@@ -4,6 +4,7 @@ import {HomePage} from "./HomePage/HomePage.tsx";
 import {ArticlePreferencesPage} from "./AuthPages/ArticlePreferencesPage/ArticlePreferencesPage.tsx";
 import {NewArticlePage} from "./NewArticle/NewArticlePage.tsx";
 import {SettingsPage} from "./SettingsPage/SettingsPage.tsx";
+import {ProfilePage} from "./ProfilePage/ProfilePage.tsx";
 
 export {
     LoginPage,
@@ -11,5 +12,6 @@ export {
     HomePage,
     ArticlePreferencesPage,
     NewArticlePage,
-    SettingsPage
+    SettingsPage,
+    ProfilePage
 }

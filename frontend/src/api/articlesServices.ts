@@ -125,6 +125,19 @@ const updateArticle = async (id: number, title: string, content: string, image: 
     }
 }
 
+const getOwnArticles = async (page: number | null) => {
+    try {
+        const res: AxiosResponse<ArticlesResponse> = await axiosAuthorized.get('articles/owned/', {
+            params: {
+                page: page
+            }
+        });
+        return res.data;
+    } catch (e) {
+        return Promise.reject(e);
+    }
+}
+
 export {
     getCategories,
     getInterests,
@@ -136,4 +149,5 @@ export {
     blockArticle,
     createArticle,
     updateArticle,
+    getOwnArticles,
 };

@@ -1,7 +1,15 @@
 import './App.scss'
 import {Route, Routes} from "react-router-dom";
 import {ProtectedRoute} from "./components";
-import {HomePage, LoginPage, SignupPage, ArticlePreferencesPage, NewArticlePage, SettingsPage} from "./pages";
+import {
+    HomePage,
+    LoginPage,
+    SignupPage,
+    ArticlePreferencesPage,
+    NewArticlePage,
+    SettingsPage,
+    ProfilePage
+} from "./pages";
 
 function App() {
     return (<Routes>
@@ -34,6 +42,13 @@ function App() {
             element={<ProtectedRoute
                 to={'/login'}
                 children={<NewArticlePage/>}
+            />}
+        />
+        <Route
+            path={'/profile/'}
+            element={<ProtectedRoute
+                to={'/login'}
+                children={<ProfilePage/>}
             />}
         />
     </Routes>)

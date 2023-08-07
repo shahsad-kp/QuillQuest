@@ -47,7 +47,6 @@ class ListMatchedArticlesView(ListAPIView):
     serializer_class = ArticleSerializer
     permission_classes = [IsAuthenticated]
     pagination_class = ArticlePagination
-    page_size = 30
 
     def get_queryset(self):
         category = self.request.query_params.get('category', None)
@@ -92,3 +91,12 @@ class BlockArticle(APIView):
         article = self.get_article(pk)
         status = article.block(request.user)
         return Response(data={'blocked': status}, status=200)
+
+
+class GetOwnedArticle(ListAPIView):
+    serializer_class = ArticleSerializer
+    permission_classes = [IsAuthenticated]
+    pagination_class = ArticlePagination
+
+    def get_queryset(self):
+        return Article.objects.filter(author=self.request.user)
