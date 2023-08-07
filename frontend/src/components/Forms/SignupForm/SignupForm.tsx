@@ -56,9 +56,9 @@ export const SignupForm = () => {
                 const day = String(values.dateOfBirth.getDate()).padStart(2, '0');
                 const dateOfBirth = `${year}-${month}-${day}`;
                 const user: User = {
-                    firstName: values.firstName, lastName: values.lastName, email: values.email, dateOfBirth, phone: values.phone
+                    firstName: values.firstName, lastName: values.lastName, email: values.email, dateOfBirth, phone: values.phone,
                 }
-                register(user).then(() => {
+                register(user, values.password).then(() => {
                     if (location.state?.from) {
                         navigate('/article-preferences', {replace: true, state:{from:location.state.from}},)
                     }
@@ -125,7 +125,7 @@ export const SignupForm = () => {
                 setSignupState(SignUpState.password);
             }
         }
-    }, [navigate, signupState, values, maxDate]);
+    }, [signupState, values, location.state.from, navigate, maxDate]);
 
     return (<div className={'auth-form'}>
         <h1>Sign up</h1>

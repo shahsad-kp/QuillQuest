@@ -36,8 +36,9 @@ const login = async ( password: string, email?: string, phone?: string): Promise
     return user;
 }
 
-const register = async (user: User): Promise<User> => {
-    const res: AxiosResponse<loginResponse> = await axiosInstance.post('auth/register/', user);
+const register = async (user: User, password: string): Promise<User> => {
+    const data = {...user, password}
+    const res: AxiosResponse<loginResponse> = await axiosInstance.post('auth/register/', data);
     const {access, refresh, user: newUser} = res.data;
     localStorage.setItem('accessToken', access);
     localStorage.setItem('refreshToken', refresh);
