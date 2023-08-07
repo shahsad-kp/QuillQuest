@@ -1,12 +1,12 @@
 from django.http import Http404
 from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView, UpdateAPIView
-from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from Article.models import Category, Article
+from Article.paginations import ArticlePagination
 from Article.permissions import ArticleOwnerShip
 from Article.serializers import CategorySerializer, ArticleSerializer, InterestedCategorySerializer
 
@@ -46,7 +46,7 @@ class GetArticle(RetrieveAPIView):
 class ListMatchedArticlesView(ListAPIView):
     serializer_class = ArticleSerializer
     permission_classes = [IsAuthenticated]
-    pagination_class = LimitOffsetPagination
+    pagination_class = ArticlePagination
     page_size = 30
 
     def get_queryset(self):
