@@ -11,7 +11,7 @@ import {OpenedArticle} from "../OpenedArticle/OpenedArticle.tsx";
 export const ArticleBody = () => {
     const nextPage = useRef<number | null>(null);
     const [articles, setArticles] = useState<Article[]>([]);
-    const [searchParams] = useSearchParams()
+    const [searchParams, setSearchParams] = useSearchParams()
     const [interestedCategories, setInterestedCategories] = useState<Category[]>([]);
     const selectedCategory = useRef('All');
     const [openedArticle, setOpenedArticle] = useState<Article | null>(null);
@@ -31,8 +31,14 @@ export const ArticleBody = () => {
             setArticles(response.results);
             nextPage.current = response.next;
             selectedCategory.current = category || 'All';
+            if (category) {
+                setSearchParams({category});
+            }
+            else {
+                setSearchParams({});
+            }
         });
-    }, [searchParams]);
+    }, [searchParams, setSearchParams]);
 
     return (<div className={'article-body'}>
         <div className={'article-body-inner article-body-width'}>

@@ -1,7 +1,7 @@
 from django.urls import path
 
 from Article.views import ListCategoryView, ListMatchedArticlesView, GetInterestedCategoriesView, LikeArticle, \
-    BlockArticle, GetArticle, CreateArticle, EditArticle, GetOwnedArticle
+    BlockArticle, GetArticle, CreateArticle, EditArticle, GetOwnedArticle, DeleteArticle
 
 urlpatterns = [
     path('categories/', ListCategoryView.as_view(), name='categories'),
@@ -13,4 +13,5 @@ urlpatterns = [
     path('create/', CreateArticle.as_view(), name='create_article'),
     path('<int:pk>/update/', EditArticle.as_view(), name='update_article'),
     path('owned/', GetOwnedArticle.as_view(), name='owned_article'),
+    path('<int:pk>/delete/', DeleteArticle.as_view(), name='delete_article'),
 ]

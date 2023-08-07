@@ -138,6 +138,10 @@ const getOwnArticles = async (page: number | null) => {
     }
 }
 
+const deleteArticle = async (articleId: number) => {
+    await axiosAuthorized.delete(`/articles/${articleId}/delete/`);
+}
+
 export {
     getCategories,
     getInterests,
@@ -150,4 +154,5 @@ export {
     createArticle,
     updateArticle,
     getOwnArticles,
+    deleteArticle
 };

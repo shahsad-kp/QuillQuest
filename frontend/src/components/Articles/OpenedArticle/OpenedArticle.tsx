@@ -1,11 +1,12 @@
 import {Article} from "../../../types/Article.ts";
 import "./OpenedArticle.css";
-import {FC, useEffect, useState} from "react";
+import {FC, useCallback, useEffect, useState} from "react";
 import {AiFillHeart, AiOutlineHeart} from "react-icons/ai";
-import {fetchArticle, likeArticle} from "../../../api/articlesServices.ts";
+import {deleteArticle as deleteArticleService, fetchArticle, likeArticle} from "../../../api/articlesServices.ts";
 import {useSelector} from "react-redux";
 import {FiEdit} from "react-icons/fi";
-import {Link} from "react-router-dom";
+import {Link, useSearchParams} from "react-router-dom";
+import {MdOutlineDeleteOutline} from "react-icons/md";
 
 type Props = {
     article: Article; closeFunction: () => void;
@@ -21,6 +22,14 @@ export const OpenedArticle: FC<Props> = ({article, closeFunction}) => {
         year: 'numeric', month: 'long', day: 'numeric'
     });
     const readingTime = Math.ceil(article.content.split(' ').length / 200) + ' min read';
+    const [, setSearchParams] = useSearchParams();
+
+    const deleteArticle = useCallback(() => {
+        window.confirm('Are you sure you want to delete this article?') && deleteArticleService(article.id).then(() => {
+            setSearchParams({refresh: 'yes'});
+            closeFunction();
+        })
+    }, [article.id, closeFunction, setSearchParams])
 
     useEffect(() => {
         fetchArticle(article.id).then(setFetchedArticle)
@@ -61,14 +70,23 @@ export const OpenedArticle: FC<Props> = ({article, closeFunction}) => {
                         {fetchedArticle.liked ? <AiFillHeart className={'article-opened-icons'}/> :
                             <AiOutlineHeart className={'article-opened-icons'}/>}
                     </div>
-                    {fetchedArticle.author.id === user.id && <div>
-                        <Link
-                            to={`/articles/${fetchedArticle.id}/edit`}
-                            state={{article: fetchedArticle}}
-                        >
-                            <FiEdit className={'article-opened-icons'}/>
-                        </Link>
-                    </div>}
+                    {fetchedArticle.author.id === user.id && <>
+                        <div>
+                            <Link
+                                to={`/articles/${fetchedArticle.id}/edit`}
+                                state={{article: fetchedArticle}}
+                            >
+                                <FiEdit className={'article-opened-icons'}/>
+                            </Link>
+                        </div>
+                        <div>
+                            <div
+                                onClick={deleteArticle}
+                            >
+                                <MdOutlineDeleteOutline className={'article-opened-icons'}/>
+                            </div>
+                        </div>
+                    </>}
                 </div>
             </div>
             <div

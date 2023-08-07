@@ -8,9 +8,10 @@ type Props = {
 }
 
 export const ProtectedRoute: FC<Props> = ({children, replace, to}) => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const user: User = useSelector((state) => state?.auth.user);
-    let location = useLocation();
+    const location = useLocation();
     if (!user) {
         return <Navigate to={to} replace={replace} state={{from: location}}/>
     }

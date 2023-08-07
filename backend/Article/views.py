@@ -1,5 +1,5 @@
 from django.http import Http404
-from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView, UpdateAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView, UpdateAPIView, DestroyAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -100,3 +100,9 @@ class GetOwnedArticle(ListAPIView):
 
     def get_queryset(self):
         return Article.objects.filter(author=self.request.user)
+
+
+class DeleteArticle(DestroyAPIView):
+    permission_classes = [IsAuthenticated, ArticleOwnerShip]
+    queryset = Article.objects.all()
+    lookup_field = 'pk'
