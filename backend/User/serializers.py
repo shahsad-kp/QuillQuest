@@ -44,7 +44,7 @@ class AuthorSerializer(ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('firstName', 'lastName', 'email')
+        fields = ('id', 'firstName', 'lastName', 'email')
 
 
 class InterestedCategorySerializer(ModelSerializer):
