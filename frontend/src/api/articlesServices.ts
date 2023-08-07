@@ -97,12 +97,30 @@ const createArticle = async (title: string, content: string, image: File | null,
         const data = new FormData();
         data.append('title', title);
         data.append('content', content);
-        data.append('image', image as Blob);
+        if (image)
+            data.append('image', image as Blob);
         data.append('postTags', JSON.stringify(tags));
         data.append('categoryId', category.toString());
         const response: AxiosResponse<Article> = await axiosAuthorized.post('articles/create/', data);
         return response.data;
     } catch (e) {
+        return Promise.reject(e);
+    }
+}
+
+const updateArticle = async (id: number, title: string, content: string, image: File | null, tags: string[], category: number) => {
+    try{
+        const data = new FormData();
+        data.append('title', title);
+        data.append('content', content);
+        if (image)
+            data.append('image', image as Blob);
+        data.append('postTags', JSON.stringify(tags));
+        data.append('categoryId', category.toString());
+        const response: AxiosResponse<Article> = await axiosAuthorized.patch(`articles/${id}/update/`, data);
+        return response.data;
+    }
+    catch (e) {
         return Promise.reject(e);
     }
 }
@@ -116,5 +134,6 @@ export {
     fetchArticle,
     likeArticle,
     blockArticle,
-    createArticle
+    createArticle,
+    updateArticle,
 };

@@ -12,4 +12,5 @@ export type Article = {
     dateUpdated: string,
     author: Author,
     liked: boolean,
+    tags: string[]
 }

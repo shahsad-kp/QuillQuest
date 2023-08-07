@@ -48,12 +48,25 @@ class ArticleSerializer(serializers.ModelSerializer):
         category_id = validated_data.pop('category').get('id')
         category = Category.objects.get(pk=category_id)
         tags = validated_data.pop('postTags', [])
-        print(tags)
         article = Article.objects.create(category=category, **validated_data)
         for tag in tags:
             tag_obj, _ = Tag.objects.get_or_create(title=tag)
             article.tags.add(tag_obj)
         return article
+
+    def update(self, instance, validated_data):
+        category = validated_data.pop('category', None)
+        if category:
+            category = Category.objects.get(pk=category['id'])
+            instance.category = category
+        tags = validated_data.pop('postTags', [])
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+        for tag in tags:
+            tag_obj, _ = Tag.objects.get_or_create(title=tag)
+            instance.tags.add(tag_obj)
+        return instance
 
 
 class InterestedCategorySerializer(serializers.ModelSerializer):

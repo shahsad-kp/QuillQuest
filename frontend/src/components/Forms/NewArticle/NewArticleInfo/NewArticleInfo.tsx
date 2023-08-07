@@ -1,23 +1,22 @@
 import './NewArticleInfo.css';
 import {ChangeEvent, FC, useEffect, KeyboardEvent, useState, useCallback, FormEvent} from "react";
 import {Category} from "../../../../types/Category.ts";
-import {createArticle, getCategories} from "../../../../api/articlesServices.ts";
+import {createArticle, getCategories, updateArticle} from "../../../../api/articlesServices.ts";
 import {RxCross2} from "react-icons/rx";
 import {useNavigate} from "react-router-dom";
 
 type Props = {
-    title: string, 
-    image: File | null, 
-    content: string,
-    closeFunction: () => void
+    title: string, image: File | null, content: string, closeFunction: () => void
+    categoryId: string
+    oldTags: string[], articleId?: number
 }
 
-export const NewArticleInfo: FC<Props> = ({title, content, image, closeFunction}) => {
+export const NewArticleInfo: FC<Props> = ({title, content, image, closeFunction, categoryId, oldTags, articleId}) => {
     const [categories, setCategories] = useState<Category[]>([]);
     const [input, setInput] = useState('');
-    const [tags, setTags] = useState<string[]>([]);
+    const [tags, setTags] = useState<string[]>(oldTags);
     const [isKeyReleased, setIsKeyReleased] = useState(false);
-    const [selectedCategory, setSelectedCategory] = useState<string>('');
+    const [selectedCategory, setSelectedCategory] = useState<string>(categoryId);
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
@@ -74,29 +73,28 @@ export const NewArticleInfo: FC<Props> = ({title, content, image, closeFunction}
         setIsKeyReleased(true);
     }, [])
 
-    const deleteTag = (index: number) => {
+    const deleteTag = useCallback((index: number) => {
         setTags(prevState => prevState.filter((_tag, i) => i !== index))
-    }
-    
+    }, [])
+
     const handleSubmit = useCallback((e: FormEvent) => {
         e.preventDefault();
-        if (!selectedCategory){
+        if (!selectedCategory) {
             setError('Please select category');
             return;
-        }
-        else {
+        } else {
             setError('');
         }
-        createArticle(
-            title,
-            content,
-            image,
-            tags,
-            parseInt(selectedCategory)
-        ).then(() => {
-            navigate('/');
-        })
-    }, [content, image, navigate, selectedCategory, tags, title]);
+        if (articleId) {
+            updateArticle(articleId, title, content, image, tags, parseInt(selectedCategory)).then(() => {
+                navigate('/');
+            })
+        } else {
+            createArticle(title, content, image, tags, parseInt(selectedCategory)).then(() => {
+                navigate('/');
+            })
+        }
+    }, [articleId, content, image, navigate, selectedCategory, tags, title]);
 
     return (<div className={'new-article-info-form-out'}>
         <form
@@ -114,7 +112,8 @@ export const NewArticleInfo: FC<Props> = ({title, content, image, closeFunction}
                 >
                     <option
                         value={''}
-                    >Not Selected</option>
+                    >Not Selected
+                    </option>
                     {categories.map((category, index) => <option
                         key={index}
                         value={category.id}
@@ -124,21 +123,17 @@ export const NewArticleInfo: FC<Props> = ({title, content, image, closeFunction}
             <div>
                 <label htmlFor="category">Enter tags</label>
                 <div className={'tags'}>
-                    {tags.map((tag, index) => (
-                        <div className={'tag'} key={index}>
+                    {tags.map((tag, index) => (<div className={'tag'} key={index}>
                             <span>{tag}</span>
                             <button
                                 style={{
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center"
+                                    display: "flex", justifyContent: "center", alignItems: "center"
                                 }}
                                 onClick={() => deleteTag(index)}
                             >
                                 <RxCross2/>
                             </button>
-                        </div>
-                    ))}
+                        </div>))}
                 </div>
                 <input
                     value={input}
@@ -149,13 +144,9 @@ export const NewArticleInfo: FC<Props> = ({title, content, image, closeFunction}
                     className={'input'}
                 />
             </div>
-            {
-                error && <div className={'error'}>{error}</div>
-            }
+            {error && <div className={'error'}>{error}</div>}
             <div>
-                <button>
-                    Publish
-                </button>
+                <button>{articleId ? 'Update' : 'Publish'}</button>
             </div>
         </form>
     </div>);

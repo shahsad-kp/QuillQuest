@@ -1,5 +1,5 @@
 from django.http import Http404
-from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView, UpdateAPIView
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.request import Request
@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from Article.models import Category, Article
+from Article.permissions import ArticleOwnerShip
 from Article.serializers import CategorySerializer, ArticleSerializer, InterestedCategorySerializer
 
 
@@ -22,6 +23,16 @@ class CreateArticle(CreateAPIView):
     queryset = Article.objects.all()
 
     def perform_create(self, serializer: ArticleSerializer):
+        serializer.save(author=self.request.user)
+
+
+class EditArticle(UpdateAPIView):
+    serializer_class = ArticleSerializer
+    permission_classes = [IsAuthenticated, ArticleOwnerShip]
+    queryset = Article.objects.all()
+    lookup_field = 'pk'
+
+    def perform_update(self, serializer: ArticleSerializer):
         serializer.save(author=self.request.user)
 
 

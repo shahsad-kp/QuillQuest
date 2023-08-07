@@ -29,6 +29,13 @@ function App() {
                 children={<SettingsPage/>}
             />}
         />
+        <Route
+            path={'/articles/:id/edit/'}
+            element={<ProtectedRoute
+                to={'/login'}
+                children={<NewArticlePage/>}
+            />}
+        />
     </Routes>)
 }
 

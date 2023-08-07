@@ -3,15 +3,19 @@ import "./OpenedArticle.css";
 import {FC, useEffect, useState} from "react";
 import {AiFillHeart, AiOutlineHeart} from "react-icons/ai";
 import {fetchArticle, likeArticle} from "../../../api/articlesServices.ts";
+import {useSelector} from "react-redux";
+import {FiEdit} from "react-icons/fi";
+import {Link} from "react-router-dom";
 
 type Props = {
-    article: Article;
-    closeFunction: () => void;
+    article: Article; closeFunction: () => void;
 }
 
 export const OpenedArticle: FC<Props> = ({article, closeFunction}) => {
     const [fetchedArticle, setFetchedArticle] = useState(article);
-
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const user = useSelector(state => state?.auth.user);
     const createdDate = new Date(article.dateCreated)
     const createdDateString = createdDate.toLocaleDateString('en-US', {
         year: 'numeric', month: 'long', day: 'numeric'
@@ -19,7 +23,10 @@ export const OpenedArticle: FC<Props> = ({article, closeFunction}) => {
     const readingTime = Math.ceil(article.content.split(' ').length / 200) + ' min read';
 
     useEffect(() => {
-        fetchArticle(article.id).then(setFetchedArticle)
+        fetchArticle(article.id).then(res => {
+            console.log(res)
+            setFetchedArticle(res)
+        })
     }, [article.id]);
 
     useEffect(() => {
@@ -48,12 +55,23 @@ export const OpenedArticle: FC<Props> = ({article, closeFunction}) => {
                 <h1 className={'article-opened-title'}>{fetchedArticle.title}</h1>
                 <div
                     className={'article-opened-actions'}
-                    onClick={() => likeArticle(fetchedArticle.id).then(res => {
-                        setFetchedArticle({...fetchedArticle, liked: res.liked})
-                    })}
                 >
-                    {fetchedArticle.liked ? <AiFillHeart className={'article-opened-icons'}/> :
-                        <AiOutlineHeart className={'article-opened-icons'}/>}
+                    <div
+                        onClick={() => likeArticle(fetchedArticle.id).then(res => {
+                            setFetchedArticle({...fetchedArticle, liked: res.liked})
+                        })}
+                    >
+                        {fetchedArticle.liked ? <AiFillHeart className={'article-opened-icons'}/> :
+                            <AiOutlineHeart className={'article-opened-icons'}/>}
+                    </div>
+                    {fetchedArticle.author.id === user.id && <div>
+                        <Link
+                            to={`/articles/${fetchedArticle.id}/edit`}
+                            state={{article: fetchedArticle}}
+                        >
+                            <FiEdit className={'article-opened-icons'}/>
+                        </Link>
+                    </div>}
                 </div>
             </div>
             <div

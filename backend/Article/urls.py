@@ -1,7 +1,7 @@
 from django.urls import path
 
 from Article.views import ListCategoryView, ListMatchedArticlesView, GetInterestedCategoriesView, LikeArticle, \
-    BlockArticle, GetArticle, CreateArticle
+    BlockArticle, GetArticle, CreateArticle, EditArticle
 
 urlpatterns = [
     path('categories/', ListCategoryView.as_view(), name='categories'),
@@ -11,4 +11,5 @@ urlpatterns = [
     path('<int:pk>/block/', BlockArticle.as_view(), name='block_article'),
     path('<int:pk>/', GetArticle.as_view(), name='article_view'),
     path('create/', CreateArticle.as_view(), name='create_article'),
+    path('<int:pk>/update/', EditArticle.as_view(), name='update_article'),
 ]
