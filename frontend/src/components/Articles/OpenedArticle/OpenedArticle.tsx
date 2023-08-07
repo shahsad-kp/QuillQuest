@@ -26,7 +26,7 @@ export const OpenedArticle: FC<Props> = ({article, closeFunction}) => {
         const handleOutsideClick = (event: MouseEvent) => {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
-            if (!event.target.closest('#article-opened-head')) {
+            if (!event.target.closest('#article')) {
                 closeFunction();
             }
         };
@@ -42,6 +42,7 @@ export const OpenedArticle: FC<Props> = ({article, closeFunction}) => {
     >
         <div
             className={"article-inner-opened article-opened-width"}
+            id={'article'}
         >
             <div className={'article-opened-head'}>
                 <h1 className={'article-opened-title'}>{fetchedArticle.title}</h1>
