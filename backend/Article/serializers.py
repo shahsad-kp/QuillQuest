@@ -17,7 +17,7 @@ class ArticleSerializer(serializers.ModelSerializer):
     dateCreated = serializers.DateTimeField(source='created_at', read_only=True)
     dateUpdated = serializers.DateTimeField(source='updated_at', read_only=True)
     tags = serializers.SlugRelatedField(slug_field='title', many=True, read_only=True)
-    postTags = serializers.ListField(child=serializers.CharField(max_length=50), write_only=True)
+    postTags = serializers.JSONField(write_only=True)
     liked = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
@@ -48,6 +48,7 @@ class ArticleSerializer(serializers.ModelSerializer):
         category_id = validated_data.pop('category').get('id')
         category = Category.objects.get(pk=category_id)
         tags = validated_data.pop('postTags', [])
+        print(tags)
         article = Article.objects.create(category=category, **validated_data)
         for tag in tags:
             tag_obj, _ = Tag.objects.get_or_create(title=tag)
