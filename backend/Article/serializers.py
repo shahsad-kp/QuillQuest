@@ -19,6 +19,7 @@ class ArticleSerializer(serializers.ModelSerializer):
     tags = serializers.SlugRelatedField(slug_field='title', many=True, read_only=True)
     postTags = serializers.JSONField(write_only=True)
     liked = serializers.SerializerMethodField(read_only=True)
+    blocked = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Article
@@ -34,8 +35,16 @@ class ArticleSerializer(serializers.ModelSerializer):
             'postTags',
             'dateCreated',
             'dateUpdated',
-            'liked'
+            'liked',
+            'blocked'
         )
+
+    def get_blocked(self, obj: Article):
+        try:
+            user = self.context['request'].user
+        except KeyError:
+            return False
+        return user in obj.blocks.all()
 
     def get_liked(self, obj: Article):
         try:
