@@ -52,13 +52,17 @@
     border: 1px solid #ccc;
     border-radius: 3px;
     cursor: pointer;
-    color: white;
+    color: #f5f5f5;
     font-weight: 600;
-    background-color: #2a98dc;
+    background-color: #333;
 }
 
 .new-article-form > div > .input:focus {
     outline: none;
+}
+
+.new-article-form > div > button:hover {
+    background-color: #575757;
 }
 
 .new-article-form .tags{
