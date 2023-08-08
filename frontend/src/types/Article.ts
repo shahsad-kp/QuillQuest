@@ -13,5 +13,7 @@ export type Article = {
     author: Author,
     liked: boolean,
     blocked: boolean,
-    tags: string[]
+    tags: string[],
+    noOfLikes: number,
+    noOfBlocks: number,
 }

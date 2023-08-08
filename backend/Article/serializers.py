@@ -20,6 +20,8 @@ class ArticleSerializer(serializers.ModelSerializer):
     postTags = serializers.JSONField(write_only=True)
     liked = serializers.SerializerMethodField(read_only=True)
     blocked = serializers.SerializerMethodField(read_only=True)
+    noOfLikes = serializers.SerializerMethodField(read_only=True)
+    noOfBlocks = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Article
@@ -36,7 +38,9 @@ class ArticleSerializer(serializers.ModelSerializer):
             'dateCreated',
             'dateUpdated',
             'liked',
-            'blocked'
+            'blocked',
+            'noOfLikes',
+            'noOfBlocks',
         )
 
     def get_blocked(self, obj: Article):
@@ -52,6 +56,12 @@ class ArticleSerializer(serializers.ModelSerializer):
         except KeyError:
             return False
         return user in obj.likes.all()
+
+    def get_noOfLikes(self, obj: Article):
+        return obj.likes.count()
+
+    def get_noOfBlocks(self, obj: Article):
+        return obj.blocks.count()
 
     def create(self, validated_data):
         category_id = validated_data.pop('category').get('id')

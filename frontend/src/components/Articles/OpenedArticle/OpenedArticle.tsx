@@ -105,8 +105,9 @@ export const OpenedArticle: FC<Props> = ({article, closeFunction, setFetchRequir
                 </div>
             </div>
             <div
-                className={'article-opened-details'}>
-                {`${fetchedArticle.author.firstName} ${fetchedArticle.author.lastName}`} ● {createdDateString} ● {readingTime}
+                className={'article-opened-details'}
+            >
+                {`${fetchedArticle.author.firstName} ${fetchedArticle.author.lastName}`} • {createdDateString} • {readingTime} • {fetchedArticle.noOfLikes} likes {fetchedArticle.author.id === user.id ? ` • ${fetchedArticle.noOfBlocks} blocks` : ''}
             </div>
             {fetchedArticle.image && <img
                 className={'article-opened-image'}
