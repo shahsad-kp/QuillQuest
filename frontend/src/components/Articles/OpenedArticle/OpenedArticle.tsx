@@ -75,8 +75,8 @@ export const OpenedArticle: FC<Props> = ({article, closeFunction, setFetchRequir
                             setFetchedArticle({...fetchedArticle, liked: res.liked})
                         })}
                     >
-                        {fetchedArticle.liked ? <AiFillHeart className={'article-opened-icons'}/> :
-                            <AiOutlineHeart className={'article-opened-icons'}/>}
+                        {fetchedArticle.liked ? <AiFillHeart className={'article-opened-icons'} style={{color: "#f33d3d"}}/> :
+                            <AiOutlineHeart className={'article-opened-icons'} style={{color: "#464646"}}/>}
                     </div>
                     {fetchedArticle.author.id === user.id && <>
                         <div>
@@ -84,21 +84,23 @@ export const OpenedArticle: FC<Props> = ({article, closeFunction, setFetchRequir
                                 to={`/articles/${fetchedArticle.id}/edit`}
                                 state={{article: fetchedArticle}}
                             >
-                                <FiEdit className={'article-opened-icons'}/>
+                                <FiEdit className={'article-opened-icons'} style={{color: "#464646"}}/>
                             </Link>
                         </div>
                         <div>
                             <div
                                 onClick={deleteArticle}
                             >
-                                <MdOutlineDeleteOutline className={'article-opened-icons'}/>
+                                <MdOutlineDeleteOutline className={'article-opened-icons'} style={{color: "#ff0000"}}/>
                             </div>
                         </div>
                     </>}
                 </div>
             </div>
             <div
-                className={'article-opened-details'}>{fetchedArticle.author.firstName} ● {createdDateString} ● {readingTime}</div>
+                className={'article-opened-details'}>
+                {`${fetchedArticle.author.firstName} ${fetchedArticle.author.lastName}`} ● {createdDateString} ● {readingTime}
+            </div>
             {fetchedArticle.image && <img
                 className={'article-opened-image'}
                 src={fetchedArticle.image}

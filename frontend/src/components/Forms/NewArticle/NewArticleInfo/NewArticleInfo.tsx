@@ -19,6 +19,7 @@ export const NewArticleInfo: FC<Props> = ({title, content, image, closeFunction,
     const [selectedCategory, setSelectedCategory] = useState<string>(categoryId);
     const [error, setError] = useState('');
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         getCategories().then(setCategories).catch(console.log)
@@ -63,7 +64,6 @@ export const NewArticleInfo: FC<Props> = ({title, content, image, closeFunction,
                 setInput(poppedTag);
             }
         }
-
         setIsKeyReleased(false);
     }, [input, isKeyReleased, tags]);
 
@@ -84,13 +84,18 @@ export const NewArticleInfo: FC<Props> = ({title, content, image, closeFunction,
             setError('');
         }
         if (articleId) {
+            setLoading(true)
             updateArticle(articleId, title, content, image, tags, parseInt(selectedCategory)).then(() => {
                 navigate('/');
-            })
+            }).catch(() => {
+                setError('Something went wrong')
+            }).finally(() => setLoading(false))
         } else {
             createArticle(title, content, image, tags, parseInt(selectedCategory)).then(() => {
                 navigate('/');
-            })
+            }).catch(() => {
+                setError('Something went wrong')
+            }).finally(() => setLoading(false))
         }
     }, [articleId, content, image, navigate, selectedCategory, tags, title]);
 
@@ -144,7 +149,7 @@ export const NewArticleInfo: FC<Props> = ({title, content, image, closeFunction,
             </div>
             {error && <div className={'error'}>{error}</div>}
             <div>
-                <button>{articleId ? 'Update' : 'Publish'}</button>
+                <button disabled={loading}>{!loading ? (articleId ? 'Update' : 'Publish') : 'Loading..'}</button>
             </div>
         </form>
     </div>);

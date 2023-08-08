@@ -65,6 +65,16 @@
     background-color: #575757;
 }
 
+.new-article-form > div > button:disabled{
+    background-color: #ccc;
+    color: #000;
+    cursor: not-allowed;
+}
+
+.new-article-form > div > button:disabled:hover{
+    background-color: #ccc;
+}
+
 .new-article-form .tags{
     display: flex;
     flex-direction: row;
