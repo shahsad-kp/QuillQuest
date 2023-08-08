@@ -5,14 +5,16 @@ import {AiFillHeart, AiOutlineHeart} from "react-icons/ai";
 import {deleteArticle as deleteArticleService, fetchArticle, likeArticle} from "../../../api/articlesServices.ts";
 import {useSelector} from "react-redux";
 import {FiEdit} from "react-icons/fi";
-import {Link, useSearchParams} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {MdOutlineDeleteOutline} from "react-icons/md";
 
 type Props = {
-    article: Article; closeFunction: () => void;
+    article: Article, 
+    closeFunction: () => void,
+    setFetchRequired: (value: boolean) => void;
 }
 
-export const OpenedArticle: FC<Props> = ({article, closeFunction}) => {
+export const OpenedArticle: FC<Props> = ({article, closeFunction, setFetchRequired}) => {
     const [fetchedArticle, setFetchedArticle] = useState(article);
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -22,14 +24,13 @@ export const OpenedArticle: FC<Props> = ({article, closeFunction}) => {
         year: 'numeric', month: 'long', day: 'numeric'
     });
     const readingTime = Math.ceil(article.content.split(' ').length / 200) + ' min read';
-    const [, setSearchParams] = useSearchParams();
 
     const deleteArticle = useCallback(() => {
         window.confirm('Are you sure you want to delete this article?') && deleteArticleService(article.id).then(() => {
-            setSearchParams({refresh: 'yes'});
+            setFetchRequired(true)
             closeFunction();
         })
-    }, [article.id, closeFunction, setSearchParams])
+    }, [article.id, closeFunction, setFetchRequired])
 
     useEffect(() => {
         fetchArticle(article.id).then(setFetchedArticle)

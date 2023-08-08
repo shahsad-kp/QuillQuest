@@ -11,10 +11,11 @@ import {OpenedArticle} from "../OpenedArticle/OpenedArticle.tsx";
 export const ArticleBody = () => {
     const nextPage = useRef<number | null>(null);
     const [articles, setArticles] = useState<Article[]>([]);
-    const [searchParams, setSearchParams] = useSearchParams()
+    const [searchParams] = useSearchParams()
     const [interestedCategories, setInterestedCategories] = useState<Category[]>([]);
     const selectedCategory = useRef('All');
     const [openedArticle, setOpenedArticle] = useState<Article | null>(null);
+    const [fetchRequired, setFetchRequired] = useState<boolean>(true);
 
     useEffect(() => {
         getInterestedCategories().then(setInterestedCategories);
@@ -27,18 +28,15 @@ export const ArticleBody = () => {
                 nextPage.current = null;
             }
         }
-        getInterestedArticles(category, nextPage.current).then(response => {
-            setArticles(response.results);
-            nextPage.current = response.next;
-            selectedCategory.current = category || 'All';
-            if (category) {
-                setSearchParams({category});
-            }
-            else {
-                setSearchParams({});
-            }
-        });
-    }, [searchParams, setSearchParams]);
+        if (fetchRequired) {
+            getInterestedArticles(category, nextPage.current).then(response => {
+                setArticles(response.results);
+                nextPage.current = response.next;
+                selectedCategory.current = category || 'All';
+                setFetchRequired(false)
+            });
+        }
+    }, [fetchRequired, searchParams]);
 
     return (<div className={'article-body'}>
         <div className={'article-body-inner article-body-width'}>
@@ -47,6 +45,9 @@ export const ArticleBody = () => {
             />
             <ArticleList articles={articles} openArticle={setOpenedArticle}/>
         </div>
-        {openedArticle && <OpenedArticle article={openedArticle} closeFunction={() => setOpenedArticle(null)}/>}
+        {openedArticle && <OpenedArticle article={openedArticle}
+                                         closeFunction={() => setOpenedArticle(null)}
+                                         setFetchRequired={setFetchRequired}
+        />}
     </div>);
 };
