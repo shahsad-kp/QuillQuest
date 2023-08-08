@@ -13,7 +13,11 @@ export const ArticleList: FC<Props> = ({articles, openArticle}) => {
         <div
             className={'article-list article-list-grid'}
         >
-            {articles.map(article => (<Article article={article} openArticle={openArticle}/>) )}
+            {articles.map((article, index) => (<Article
+                key={index}
+                article={article}
+                openArticle={openArticle}
+            />) )}
         </div>
     );
 };
