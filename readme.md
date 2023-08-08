@@ -1,7 +1,7 @@
 
 # QuillQuest
 
-### 🚀 About LearnEase
+### 🚀 About QuillQuest
 _Seamlessly blending Python and React, discover, share, and curate articles effortlessly. Personalize your feed, explore categories, contribute articles, and tailor your experience. Connecting knowledge, fostering community._
 
 **Key Features:**
