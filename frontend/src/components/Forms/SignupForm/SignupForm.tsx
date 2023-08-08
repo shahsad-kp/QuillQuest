@@ -125,7 +125,7 @@ export const SignupForm = () => {
                 setSignupState(SignUpState.password);
             }
         }
-    }, [signupState, values, location.state.from, navigate, maxDate]);
+    }, [signupState, values, location, navigate, maxDate]);
 
     return (<div className={'auth-form'}>
         <h1>Sign up</h1>
