@@ -50,6 +50,13 @@ export const OpenedArticle: FC<Props> = ({article, closeFunction}) => {
         };
     }, [closeFunction]);
 
+    const convertTextIntoHtml = (text: string) => {
+        // convert new lines with <br>
+        return text.split('\n').map((item, key) => {
+            return <span key={key}>{item}<br/></span>
+        })
+    }
+
     return (<section
         className="article-opened"
     >
@@ -96,7 +103,11 @@ export const OpenedArticle: FC<Props> = ({article, closeFunction}) => {
                 src={fetchedArticle.image}
                 alt={fetchedArticle.title}
             />}
-            <div className={'article-opened-content'}>{fetchedArticle.content}</div>
+            <p className={'article-opened-content'}>{
+                convertTextIntoHtml(fetchedArticle.content).map(
+                    paragraph => paragraph
+                )
+            }</p>
         </div>
     </section>);
 };
