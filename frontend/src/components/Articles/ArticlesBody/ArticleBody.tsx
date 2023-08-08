@@ -43,12 +43,15 @@ export const ArticleBody = () => {
 
     useEffect(() => {
         const category = searchParams.get('category');
+        let categoryChanged = false;
         if (category) {
             if (selectedCategory.current !== category) {
                 nextPage.current = null;
+                categoryChanged = true;
             }
         }
-        if (fetchRequired) {
+        if (fetchRequired || categoryChanged) {
+            setArticles([])
             getInterestedArticles(category, nextPage.current).then(response => {
                 setArticles(response.results);
                 nextPage.current = response.next;
