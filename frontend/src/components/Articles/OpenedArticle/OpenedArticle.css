@@ -104,6 +104,21 @@
     gap: 1rem;
 }
 
+.article-opened-actions  button{
+    border-radius: 5px;
+    padding: .5rem 1rem;
+    border: none;
+    background-color: #c90000;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.article-opened-actions .unblock{
+    background-color: #00c900;
+
+}
+
 .article-opened-icons{
     width: 25px;
     height: 25px;

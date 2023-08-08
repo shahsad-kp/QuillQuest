@@ -78,7 +78,7 @@ export const OpenedArticle: FC<Props> = ({article, closeFunction, setFetchRequir
                         {fetchedArticle.liked ? <AiFillHeart className={'article-opened-icons'} style={{color: "#f33d3d"}}/> :
                             <AiOutlineHeart className={'article-opened-icons'} style={{color: "#464646"}}/>}
                     </div>
-                    {fetchedArticle.author.id === user.id && <>
+                    {fetchedArticle.author.id === user.id ? <>
                         <div>
                             <Link
                                 to={`/articles/${fetchedArticle.id}/edit`}
@@ -94,7 +94,14 @@ export const OpenedArticle: FC<Props> = ({article, closeFunction, setFetchRequir
                                 <MdOutlineDeleteOutline className={'article-opened-icons'} style={{color: "#ff0000"}}/>
                             </div>
                         </div>
-                    </>}
+                    </> : <>
+                        <div>
+                            <button className={fetchedArticle.blocked ? 'unblock' : ''}>{
+                                fetchedArticle.blocked ? 'Unblock' : 'Block'
+                            }</button>
+                        </div>
+                    </>
+                    }
                 </div>
             </div>
             <div
