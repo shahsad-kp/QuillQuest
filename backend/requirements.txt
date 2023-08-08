@@ -9,3 +9,5 @@ djangorestframework==3.14.0
 djangorestframework-simplejwt==5.2.2
 django-cors-headers
 pillow
+django-environ==0.10.0
+psycopg2
