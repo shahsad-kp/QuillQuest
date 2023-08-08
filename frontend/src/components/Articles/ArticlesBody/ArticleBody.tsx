@@ -1,5 +1,5 @@
 import './ArticleBody.css'
-import {useEffect, useRef, useState} from "react";
+import {useCallback, useEffect, useRef, useState} from "react";
 import {Article} from "../../../types/Article.ts";
 import {useSearchParams} from "react-router-dom";
 import {Category} from "../../../types/Category.ts";
@@ -17,8 +17,28 @@ export const ArticleBody = () => {
     const [openedArticle, setOpenedArticle] = useState<Article | null>(null);
     const [fetchRequired, setFetchRequired] = useState<boolean>(true);
 
+    const infiniteScroll  = useCallback(() => {
+        if (window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight) {
+            const category = searchParams.get('category');
+            getInterestedArticles(category, nextPage.current).then(response => {
+                setArticles(response.results);
+                nextPage.current = response.next;
+                selectedCategory.current = category || 'All';
+                setFetchRequired(false)
+            });
+        }
+    }, [searchParams])
+
+    useEffect(() => {
+        window.addEventListener('scroll', infiniteScroll );
+        return () => {
+            window.removeEventListener('scroll', infiniteScroll );
+        };
+    }, [infiniteScroll]);
+
     useEffect(() => {
         getInterestedCategories().then(setInterestedCategories);
+
     }, []);
 
     useEffect(() => {
@@ -45,9 +65,10 @@ export const ArticleBody = () => {
             />
             <ArticleList articles={articles} openArticle={setOpenedArticle}/>
         </div>
-        {openedArticle && <OpenedArticle article={openedArticle}
-                                         closeFunction={() => setOpenedArticle(null)}
-                                         setFetchRequired={setFetchRequired}
+        {openedArticle && <OpenedArticle
+            article={openedArticle}
+            closeFunction={() => setOpenedArticle(null)}
+            setFetchRequired={setFetchRequired}
         />}
     </div>);
 };
