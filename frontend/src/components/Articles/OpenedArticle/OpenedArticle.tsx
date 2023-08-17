@@ -11,7 +11,7 @@ import {MdOutlineDeleteOutline} from "react-icons/md";
 type Props = {
     article: Article, 
     closeFunction: () => void,
-    setFetchRequired: (value: boolean) => void;
+    setFetchRequired: ((value: boolean) => void)| null;
 }
 
 export const OpenedArticle: FC<Props> = ({article, closeFunction, setFetchRequired}) => {
@@ -27,7 +27,7 @@ export const OpenedArticle: FC<Props> = ({article, closeFunction, setFetchRequir
 
     const deleteArticle = useCallback(() => {
         window.confirm('Are you sure you want to delete this article?') && deleteArticleService(article.id).then(() => {
-            setFetchRequired(true)
+            if (setFetchRequired) setFetchRequired(true);
             closeFunction();
         })
     }, [article.id, closeFunction, setFetchRequired])

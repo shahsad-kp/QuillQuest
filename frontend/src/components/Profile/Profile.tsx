@@ -45,7 +45,10 @@ export const Profile = () => {
                     openArticle={setOpenedArticle}
                 />
             </div>
-            {openedArticle && <OpenedArticle article={openedArticle} closeFunction={() => setOpenedArticle(null)}/>}
+            {openedArticle && <OpenedArticle
+                article={openedArticle}
+                closeFunction={() => setOpenedArticle(null)}
+                setFetchRequired={null}/>}
         </div>
 
     </div>);

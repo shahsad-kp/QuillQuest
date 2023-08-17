@@ -5,15 +5,13 @@ import {login} from "../../../api/authServices.ts";
 import {AxiosError} from "axios";
 
 type ValuesType = {
-    emailOrPhone: string,
-    password: string,
+    emailOrPhone: string, password: string,
 }
 
 export const LoginForm = () => {
     const [error, setError] = useState<string | null>(null);
     const [values, setValues] = useState<ValuesType>({
-        emailOrPhone: '',
-        password: '',
+        emailOrPhone: '', password: '',
     });
     const [loading, setLoading] = useState<boolean>(false);
     const navigate = useNavigate();
@@ -24,51 +22,45 @@ export const LoginForm = () => {
         if (!/.+/.test(values.emailOrPhone)) {
             setError('Email or phone is required');
             return;
-        }
-        else if (/[^0-9]+/.test(values.emailOrPhone) && !/^.+@.+\..+$/.test(values.emailOrPhone)) {
+        } else if (/[^0-9]+/.test(values.emailOrPhone) && !/^.+@.+\..+$/.test(values.emailOrPhone)) {
             setError('Email is invalid');
             return;
-        }
-        else if (!/[^0-9]+/.test(values.emailOrPhone) && !/^[0-9]{10}$/.test(values.emailOrPhone)) {
+        } else if (!/[^0-9]+/.test(values.emailOrPhone) && !/^[0-9]{10}$/.test(values.emailOrPhone)) {
             setError('Phone number is invalid');
             return;
-        }
-        else if (!/.+/.test(values.password)) {
+        } else if (!/.+/.test(values.password)) {
             setError('Password is required');
             return;
-        }
-        else {
+        } else {
             setError(null);
             const email = /[^0-9]+/.test(values.emailOrPhone) ? values.emailOrPhone : undefined;
             const phone = /[^0-9]+/.test(values.emailOrPhone) ? undefined : values.emailOrPhone;
             setLoading(true)
             login(values.password, email, phone).then(user => {
                 if (location.state?.from) {
-                    if (user.setupCompleted)
-                        navigate(location.state.from, {replace: true});
-                    else
-                        navigate('/article-preferences', {replace: true, state:{from: location.state.from}});
-                }
-                else{
-                    if (user.setupCompleted)
+                    if (user.setupCompleted) navigate(location.state.from, {replace: true}); else navigate('/article-preferences', {
+                        replace: true, state: {from: location.state.from}
+                    });
+                } else {
+                    if (user.setupCompleted) {
                         navigate('/', {replace: true})
-                    else
-                        navigate('/article-preferences', {replace: true});
+                    } else {
+                        navigate('/article-preferences', {replace: true})
+                    }
                 }
 
             }).catch((err) => {
                 const error = err as AxiosError;
                 if (error.response?.status === 401) {
                     setError('Invalid credentials');
-                }
-                else {
+                } else {
                     setError('Something went wrong');
                 }
             }).finally(() => {
                 setLoading(false);
             })
         }
-    }, [navigate, values.emailOrPhone, values.password]);
+    }, [location.state.from, navigate, values.emailOrPhone, values.password]);
 
     return (<div className={'auth-form'}>
         <h1>Log In</h1>
@@ -90,7 +82,7 @@ export const LoginForm = () => {
                 type={'submit'}
                 onClick={handleSubmit}
                 disabled={loading}
-            >{loading? 'Logging in ..' : 'Login'}</button>
+            >{loading ? 'Logging in ..' : 'Login'}</button>
         </form>
         <hr style={{width: '100%', height: "1px", margin: '0'}}/>
         <p>
